@@ -21,7 +21,7 @@
  * 
  * @param argc The number of arguments.
  * @param argv The arguments. in list [source_file: py file to read-in before compile, 
- *                                     target_file: cpp file to write before compule, 
+ *                                     target_file: cpp file to write before compile, 
  *                                     target_function_name: function name defined in cpp file,
  *                                     write_target_name: the output python file name that the cpp function will write to.]
  * 
@@ -45,13 +45,13 @@ int main (const int argc, const char* argv[]) {
 
     // write the header of the target file
     target_file << "#include <fstream>\n";
+    target_file << "#include <iostream>\n";
     target_file << "int " << target_function_name << "() {\n";
     target_file << "std::ofstream write_target;\n";
     target_file << "write_target.open(\"" << write_target_name << "\");\n";
     target_file << "if (!write_target.is_open()) {\n";
-    target_file << "std::cerr << \"Error in writing python file: cannot open target file: \";\n";
-    target_file << "std::cerr << \"" + write_target_name + "\" << std::endl;\n";
-    target_file << "return 1;\n";
+    target_file << "throw std::runtime_error(\"Error in PEC function \\\"" << target_function_name 
+        << "\\\": cannot open file\\\"" << write_target_name << "\\\".\");\n";
     target_file << "}\n";
     // write the content of the source file
     for (std::string line; std::getline(source_file, line);) {
