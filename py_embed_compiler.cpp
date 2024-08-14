@@ -7,7 +7,7 @@
  *        this separated programme will not be neccessary in the final binary.
  * 
  * @version prealpha
- * @date 2024-06-10 16:10
+ * @date 2024-08-13 21:25
  * @author Qin Xie
  * 
  * @note created by Qin Xie on 2024-06-10
@@ -46,7 +46,9 @@ int main (const int argc, const char* argv[]) {
     // write the header of the target file
     target_file << "#include <fstream>\n";
     target_file << "#include <iostream>\n";
-    target_file << "int " << target_function_name << "() {\n";
+    target_file << "#ifndef PEC_" << target_function_name << "_HPP_\n";
+    target_file << "#define PEC_" << target_function_name << "_HPP_\n";
+    target_file << "inline int " << target_function_name << "() {\n";
     target_file << "std::ofstream write_target;\n";
     target_file << "write_target.open(\"" << write_target_name << "\");\n";
     target_file << "if (!write_target.is_open()) {\n";
@@ -71,4 +73,5 @@ int main (const int argc, const char* argv[]) {
     target_file << "write_target.close();\n";
     target_file << "return 0;\n";
     target_file << "}\n";
+    target_file << "#endif\n";
 }
