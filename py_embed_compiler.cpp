@@ -7,7 +7,7 @@
  *        this separated programme will not be neccessary in the final binary.
  * 
  * @version prealpha
- * @date 2024-08-13 21:25
+ * @date 2024-08-15 16:49
  * @author Qin Xie
  * 
  * @note created by Qin Xie on 2024-06-10
@@ -74,4 +74,10 @@ int main (const int argc, const char* argv[]) {
     target_file << "return 0;\n";
     target_file << "}\n";
     target_file << "#endif\n";
+
+    // close file
+    source_file.close();
+    target_file.close();
+
+    return 0;
 }
