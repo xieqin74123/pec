@@ -18,7 +18,7 @@ g++ -o pec *.cpp
 **This programme should be compiled before the main code and run in makefile to generate cpp/hpp that preferred
 
 # usage for python version
-./python3 py_embed_compiler.py <source_file> <target_file> <target_function_name> <write_target_name>  
+python3 py_embed_compiler.py <source_file> <target_file> <target_function_name> <write_target_name>  
  - source_file: python file to be read-in
  - target_file: the output cpp/hpp file
  - target_function_name: the function name define in "target_file" to write the python code
