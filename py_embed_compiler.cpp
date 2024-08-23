@@ -7,7 +7,7 @@
  *        this separated programme will not be neccessary in the final binary.
  * 
  * @version prealpha
- * @date 2024-08-15 16:49
+ * @date 2024-08-23 02:05
  * @author Qin Xie
  * 
  * @note created by Qin Xie on 2024-06-10
@@ -24,6 +24,8 @@
  *                                     target_file: cpp file to write before compile, 
  *                                     target_function_name: function name defined in cpp file,
  *                                     write_target_name: the output python file name that the cpp function will write to.]
+ * 
+ * @note the generated function take 1 param of the temporary save directory (defult to "./") and return the generated python path and name.
  * 
  * @return The status of the program.
 */
@@ -46,11 +48,15 @@ int main (const int argc, const char* argv[]) {
     // write the header of the target file
     target_file << "#include <fstream>\n";
     target_file << "#include <iostream>\n";
+	target_file << "#include <string>\n";
+    target_file << "#include <filesystem>\n";
     target_file << "#ifndef PEC_" << target_function_name << "_HPP_\n";
     target_file << "#define PEC_" << target_function_name << "_HPP_\n";
-    target_file << "inline int " << target_function_name << "() {\n";
+	// function definition
+    target_file << "inline std::filesyste::path " << target_function_name << "(std::filesystem::path temp_dir = \"./\") {\n";
     target_file << "std::ofstream write_target;\n";
-    target_file << "write_target.open(\"" << write_target_name << "\");\n";
+    target_file << "std::filesystem::path output_path = temp_dir / \"" << write_target_name << "\";\n";
+    target_file << "write_target.open(output_path);\n";
     target_file << "if (!write_target.is_open()) {\n";
     target_file << "throw std::runtime_error(\"Error in PEC function \\\"" << target_function_name 
         << "\\\": cannot open file\\\"" << write_target_name << "\\\".\");\n";
@@ -71,7 +77,8 @@ int main (const int argc, const char* argv[]) {
     }
     // write the end of the target file
     target_file << "write_target.close();\n";
-    target_file << "return 0;\n";
+    // output path
+    target_file << "return output_path; \n";
     target_file << "}\n";
     target_file << "#endif\n";
 
